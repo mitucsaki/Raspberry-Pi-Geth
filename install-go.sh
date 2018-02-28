@@ -9,7 +9,7 @@ if [ -d "$HOME/.go" ] || [ -d "$HOME/go" ]; then
 fi
 
 echo "Downloading Go 1.9.3..."
-wget https://dl.google.com/go/go$GO.linux-amd64.tar.gz
+wget https://dl.google.com/go/go$GO.linux-amd64.tar.gz -O $HOME/go.tar.gz
 
 if [ $? -ne 0 ]; then
     echo "Download failed!"
