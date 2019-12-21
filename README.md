@@ -1,7 +1,7 @@
 # Step-by-Step guide for Raspberry-Pi Geth
 
 In this guide, I will show the steps to properly install a working geth client on raspberry pi model 3.
-This guide will focus on implementing geth-v1.8.1 from ground 0.
+This guide will focus on implementing geth-v1.9.10 from ground 0.
 
 ## Prerequisites
 
@@ -146,7 +146,7 @@ Finally, verify go is working by checking the version:
 You should now have go installed and working properly:
 
     root@pi-geth:~/Raspberry-Pi-Geth# go version
-    go version go1.9.3 linux/arm
+    go version go1.13.5 linux/arm
  
 ## Installing and running geth
 
@@ -198,22 +198,23 @@ The geth client can be run in three instances with a few parameters:
 * Light Sync (Preferred as light clients are needed right now, will have enough storage and compute power)
     * Syncs directly to the last few blocks, does not store the whole blockchain in database
 
-If you have a 64GB SD card, you can run a '--fast' sync, however I tried it with 32GB SD card and it is just not enough. The current blockchain was 29GB at block 4.5mil. Current block is over 5 million.
+If you have a 64GB SD card, you can run a '--syncmode fast' sync, however I tried it with 32GB SD card and it is just not enough. The current blockchain was 29GB at block 4.5mil. Current block is over 5 million.
 
 Geth also has a '--cache' parameter which specifies the amount of RAM the client can use. I tested this and it really varies. The default is 128.
 
 Start the client in tmux:
 
-    geth --light --cache=128
+    geth --syncmode light --cache=128
     
 The client will start showing the following output:
 
 ```
-root@pi-geth:~# geth --light --cache=128
-INFO [02-28|00:01:31] Maximum peer count              ETH=0 LES=100 total=25
-INFO [02-28|00:01:31] Starting peer-to-peer node              instance=Geth/v1.8.2-unstable-b574b577/linux-arm/go1.9.3
-INFO [02-28|00:01:31] Allocated cache and file handles         database=/root/.ethereum/geth/lightchaind
-INFO [02-28|00:06:55] Imported new block headers               count=2048 elapsed=13.024s number=5054847 hash=30dd61…c2673e ignored=0
+root@pi-geth:~# geth --syncmode light --cache=128
+INFO [12-21|16:16:00.264] Maximum peer count                       ETH=0 LES=10 total=50
+INFO [12-21|16:16:00.264] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [12-21|16:16:00.268] Starting peer-to-peer node               instance=Geth/v1.9.10-unstable-a67fe48b-20191220/linux-arm/go1.13.5
+INFO [12-21|16:16:00.269] Allocated cache and file handles         database=/root/.ethereum/geth/lightchaindata cache=64.00MiB handles=524288
+INFO [12-21|16:16:04.286] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Engine: ethash}"
 ```
 
 Let the client start syncing. You can close this terminal and always attack it back with:
@@ -240,11 +241,11 @@ This command will say 'false' if the node is synced. Otherwise it will show the 
 ```bash
 > eth.syncing
 {
-  currentBlock: 5046655,
-  highestBlock: 5169504,
+  currentBlock: 9046015,
+  highestBlock: 9141479,
   knownStates: 0,
   pulledStates: 0,
-  startingBlock: 5046271
+  startingBlock: 9043967
 }
 ```
 
