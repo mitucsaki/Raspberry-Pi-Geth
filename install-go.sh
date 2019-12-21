@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-GO="1.9.3"
+GO="1.13.5"
 echo "Checking for existing versions..."
 if [ -d "$HOME/.go" ] || [ -d "$HOME/go" ]; then
     echo "Go directories already exist."
     exit 1
 fi
 
-echo "Downloading Go 1.9.3..."
+echo "Downloading Go 1.13.5..."
 wget https://dl.google.com/go/go$GO.linux-armv6l.tar.gz -O $HOME/go.tar.gz
 
 if [ $? -ne 0 ]; then
